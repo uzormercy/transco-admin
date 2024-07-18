@@ -10,6 +10,13 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { v4 as uuid } from "uuid";
 import Select from "react-select";
+
+export type TCollections = {
+  name: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
 export default function CreateLanguage() {
   const [toast, setToast] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string>("");
@@ -23,12 +30,6 @@ export default function CreateLanguage() {
   const [idioms, setIdioms] = useState<string>("");
   const [selectedEnglishWord, setSelectedEnglishWord] = useState<any>(null);
   const [selectedLanguage, setSelectedLanguage] = useState<any>(null);
-
-  type TCollections = {
-    name: string;
-    createdAt?: string;
-    updatedAt?: string;
-  };
 
   const englishOptions = english.map((item) => ({
     value: item.id,
@@ -57,6 +58,7 @@ export default function CreateLanguage() {
       const languageId = uuid();
       const lang = newLanguage.toLowerCase();
       const date = new Date().toISOString();
+      // TODO: Create a word along side,
       await setDoc(doc(database, lang, id), { id });
       // Create an entry in the language table
       setToast(true);
@@ -65,7 +67,7 @@ export default function CreateLanguage() {
       setIsLoading(false);
       //TODO: Delete the document created
       await setDoc(doc(database, "languages", languageId), {
-        id,
+        id: languageId,
         name: lang,
         createdAt: date,
         updatedAt: date,
