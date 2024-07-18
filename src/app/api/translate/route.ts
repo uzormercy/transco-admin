@@ -49,9 +49,15 @@ const getEnglishIdFromTranslatedWord = async (
 };
 
 export async function POST(request: Request) {
-  const { from, to, word } = await request.json();
+  let { from, to, word } = await request.json();
   let englishWord: TEnglish[] = [];
-
+  if (!from || !to || !word) {
+    return NextResponse.json({
+      message: "All fields are required",
+      data: null,
+    });
+  }
+  word = word.toLowerCase();
   // Get the language to translate from and the language to translate to  by id,  from the language table
   const languageFrom: TCollections | null = await getLanguageById(from);
   const languageTo: TCollections | null = await getLanguageById(to);
@@ -63,7 +69,6 @@ export async function POST(request: Request) {
       data: null,
     });
   }
-
   // If the language to translate from is english, get the word from the english table
   if (languageFrom.name === "english") {
     englishWord = await getEnglishWord(word);
