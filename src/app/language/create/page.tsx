@@ -1,12 +1,6 @@
 "use client";
 import { database } from "@/config/firebase";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  setDoc,
-} from "firebase/firestore";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { useEffect, useMemo, useState } from "react";
 import { v4 as uuid } from "uuid";
 import Select from "react-select";
@@ -79,7 +73,6 @@ export default function CreateLanguage() {
       }, 2000);
     } catch (error) {
       setIsLoading(false);
-      console.log("ERror: ====", error);
     }
   };
 
@@ -280,7 +273,9 @@ export default function CreateLanguage() {
           <div className="mt-3">
             <label htmlFor="meaning" className="text-[15px] font-semibold">
               Idioms{" "}
-              <small>(please separate the words with a comma " , ")</small>
+              <small>
+                (please separate the words with a comma &quot;,&quot;)
+              </small>
             </label>
             <input
               className="w-full px-3 py-1 border"
