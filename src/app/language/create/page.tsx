@@ -6,6 +6,7 @@ import { v4 as uuid } from "uuid";
 import Select from "react-select";
 
 export type TCollections = {
+  id?: string;
   name: string;
   createdAt?: string;
   updatedAt?: string;
