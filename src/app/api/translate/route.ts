@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
-import { getLanguages } from "../languages/route";
+
 import { admin_database as db } from "@/config/firebase-admin";
 import { TCollections } from "@/app/language/create/page";
+import { getLanguages } from "@/services";
 
 type TEnglish = {
   id: string;
