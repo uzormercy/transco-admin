@@ -51,6 +51,7 @@ const getEnglishIdFromTranslatedWord = async (
 
 export async function POST(request: Request) {
   let { from, to, word } = await request.json();
+  console.log("from", from, "to", to, "word", word);
   let englishWord: TEnglish[] = [];
   if (!from || !to || !word) {
     return NextResponse.json({

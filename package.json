@@ -11,13 +11,17 @@
   "dependencies": {
     "firebase": "^10.12.3",
     "firebase-admin": "^12.2.0",
+    "lodash": "^4.17.21",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
+    "react-loader-spinner": "^6.1.6",
     "react-select": "^5.8.0",
+    "react-toastify": "^10.0.5",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
