@@ -57,7 +57,6 @@ export default function Home() {
         }),
       });
       const data = await response.json();
-      console.log(data);
       if (data.data) {
         return data.data[data.data.length - 1];
       }
@@ -71,6 +70,7 @@ export default function Home() {
   const handleTranslation = async () => {
     setLoading(true);
     if (!selectedLanguageFrom || !selectedLanguageTo || !wordToTranslate) {
+      toast("All fields are required", { type: "warning" });
       setLoading(false);
       return;
     }
