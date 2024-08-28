@@ -71,8 +71,10 @@ export async function POST(request: Request) {
       data: null,
     });
   }
+  console.log("languageFrom----", languageFrom);
   // If the language to translate from is english, get the word from the english table
   if (languageFrom.name === "english") {
+    console.log("Word", word);
     englishWord = await getEnglishWord(word);
   } else {
     // If the language to translate from is not english, get the word from the translated table
@@ -97,7 +99,7 @@ export async function POST(request: Request) {
       data: null,
     });
   }
-
+  console.log("englishWord----", englishWord);
   // Get the translated word from the translated table
   const translatedWord = await getTranslatedWord(
     englishWord[0].id,

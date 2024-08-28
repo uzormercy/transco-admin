@@ -74,7 +74,6 @@ export default function Home() {
       setLoading(false);
       return;
     }
-    console.log("Translating-------------!");
     const translation = await translate(
       wordToTranslate,
       selectedLanguageFrom,

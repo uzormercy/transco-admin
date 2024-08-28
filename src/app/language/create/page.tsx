@@ -141,9 +141,9 @@ export default function CreateLanguage() {
     const idiomsArray = idioms.split(" , ");
     const dataToSave = {
       id: uuid(),
-      word: word.trim(),
-      meaning: meaning.trim(),
-      otherMeaning: otherMeaning.trim(),
+      word: word.trim().toLowerCase(),
+      meaning: meaning.trim().toLowerCase(),
+      otherMeaning: otherMeaning.trim().toLowerCase(),
       idioms: idiomsArray,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),

@@ -29,7 +29,7 @@ export default function CreateEnglish() {
       const id = uuid();
       const attributeToCreate = {
         id,
-        word,
+        word: word.trim().toLowerCase(),
         meaning,
         createdAt: date,
         updatedAt: date,
