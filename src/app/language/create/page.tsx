@@ -1,9 +1,12 @@
 "use client";
 import { database } from "@/config/firebase";
+import "react-toastify/dist/ReactToastify.css";
 import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { useEffect, useMemo, useState } from "react";
 import { v4 as uuid } from "uuid";
 import Select from "react-select";
+import { ToastContainer, toast } from "react-toastify";
+import { Oval } from "react-loader-spinner";
 
 export type TCollections = {
   id?: string;
@@ -13,8 +16,8 @@ export type TCollections = {
 };
 
 export default function CreateLanguage() {
-  const [toast, setToast] = useState<boolean>(false);
-  const [toastMessage, setToastMessage] = useState<string>("");
+  // const [toast, setToast] = useState<boolean>(false);
+  // const [toastMessage, setToastMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [newLanguage, setNewLanguage] = useState<string>("");
   const [collections, setCollections] = useState<TCollections[]>([]);
@@ -39,12 +42,7 @@ export default function CreateLanguage() {
   const [isLanguageSelected, setIsLanguageSelected] = useState(false);
   const handleNewLanguageSubmit = async () => {
     if (newLanguage === "") {
-      setToast(true);
-      setToastMessage("Please enter new language");
-      setTimeout(() => {
-        setToast(false);
-        setToastMessage("");
-      }, 2000);
+      toast("Please enter new language", { type: "warning" });
       return;
     }
     setIsLoading(true);
@@ -55,9 +53,7 @@ export default function CreateLanguage() {
       const date = new Date().toISOString();
       // TODO: Create a word along side,
       await setDoc(doc(database, lang, id), { id });
-      // Create an entry in the language table
-      setToast(true);
-      setToastMessage(`${lang} language added successfully`);
+      toast(`${lang} language added successfully`, { type: "success" });
       setNewLanguage("");
       setIsLoading(false);
       //TODO: Delete the document created
@@ -68,10 +64,6 @@ export default function CreateLanguage() {
         updatedAt: date,
       });
       fetchCollections();
-      setTimeout(() => {
-        setToast(false);
-        setToastMessage("");
-      }, 2000);
     } catch (error) {
       setIsLoading(false);
     }
@@ -129,12 +121,9 @@ export default function CreateLanguage() {
       (selectedEnglishWord && word) == "" ||
       selectedLanguage == null
     ) {
-      setToast(true);
-      setToastMessage("Please select an English word and a word to translate");
-      setTimeout(() => {
-        setToast(false);
-        setToastMessage("");
-      }, 2000);
+      toast("Please select an English word and a word to translate", {
+        type: "warning",
+      });
       return;
     }
 
@@ -155,31 +144,27 @@ export default function CreateLanguage() {
         doc(database, selectedLanguage.value, dataToSave.id),
         dataToSave
       );
-      setToast(true);
-      setToastMessage("Translation created successfully");
+      toast("Translation created successfully", { type: "success" });
+
+      // Clear all input fields and dropdown selections
       setWord("");
       setMeaning("");
       setOtherMeaning("");
       setIdioms("");
       setSelectedEnglishWord(null);
+      setSelectedLanguage(null);
+      setIsLanguageSelected(false); // Reset language selection if desired
+
       setIsLoading(false);
-      setTimeout(() => {
-        setToast(false);
-        setToastMessage("");
-      }, 2000);
-      console.log("selectedLanguage", selectedLanguage);
     } catch (error) {
       setIsLoading(false);
-      setToast(true);
-      setToastMessage("Error creating translation");
-      setTimeout(() => {
-        setToast(false);
-        setToastMessage("");
-      }, 2000);
+      toast("Error creating translation", { type: "error" });
     }
   };
+
   return (
     <section className="p-5">
+      <ToastContainer position="top-right" />
       <h1 className="font-bold text-2xl">Create Translation</h1>
 
       <div className="w-[400px] mt-10 mb-5 border p-5">
@@ -196,13 +181,6 @@ export default function CreateLanguage() {
       {!isLanguageSelected && (
         <div className="w-[400px] mt-10 mb-5 border p-5">
           <h4 className="font-bold text-2xl"> Add a new Language</h4>
-          <div className="mt-4">
-            {toast && (
-              <p className=" p-1 bg-green-200 text-green-700 w-[400px]  rounded">
-                {toastMessage}
-              </p>
-            )}
-          </div>
           <div className="mt-1">
             <label htmlFor="word" className="text-[15px] font-semibold">
               Language
@@ -216,7 +194,7 @@ export default function CreateLanguage() {
           </div>
           <div className="flex justify-end mt-5">
             <button
-              className={`py-[10px] px-[30px] border ${
+              className={`py-[10px] px-[30px] border flex item-center justify-center gap-2 ${
                 isLoading
                   ? "bg-gray-500 cursor-wait"
                   : "border-blue-800 bg-blue-800 cursor-pointer"
@@ -225,6 +203,15 @@ export default function CreateLanguage() {
               disabled={isLoading}
             >
               Create
+              <Oval
+                visible={isLoading}
+                height="20"
+                width="20"
+                color="#ffffff"
+                ariaLabel="oval-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
             </button>
           </div>
         </div>
